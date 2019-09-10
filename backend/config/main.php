@@ -6,7 +6,7 @@ $params = array_merge(
     require __DIR__ . '/params-local.php'
 );
 
-return [
+$config = [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
@@ -37,14 +37,34 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
+
+$config['modules']['admin'] = [
+    'class' => 'yiiapps\adminlte\Module',
+    'layout' => 'main',
+    'menus' => [], //详见 mdmsoft/yii2-admin
+];
+$config['aliases']['@yiiapps/adminlte'] = '@vendor/yiiapps/adminlte-asset-ext';
+$config['components']['user'] = [
+    'identityClass' => 'mdm\admin\models\User',
+    'loginUrl' => ['admin/user/login'],
+    'enableAutoLogin' => false,
+];
+$config['components']['authManager'] = [
+    'class' => 'yii\rbac\DbManager',
+];
+$config['as access'] = [
+    'class' => 'mdm\admin\components\AccessControl',
+    'allowActions' => [
+        'site/*',
+    ],
+];
+return $config;
