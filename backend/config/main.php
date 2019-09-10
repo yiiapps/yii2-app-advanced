@@ -67,4 +67,6 @@ $config['as access'] = [
         'site/*',
     ],
 ];
+$config['defaultRoute'] = 'admin/user/index'; //这里修改为后台首页
+
 return $config;
